@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "682906667441",
+    "project_id": "com-example-enterpriseen-9e2d3",
+    "storage_bucket": "com-example-enterpriseen-9e2d3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682906667441:android:beb1d01a3a6c335ddf1590",
+        "android_client_info": {
+          "package_name": "com.example.enterpriseenpensetracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxfuYyqU_SES08IwPRN1INIjyD9ReFi2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
