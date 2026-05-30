@@ -1,42 +1,85 @@
-# Enterprise Expense Reimbursement Management System
+# Enterprise Expense Reimbursement Management System 💳
 
-A production-quality Android application built with modern standards for managing corporate expense claims.
+A production-grade Android application designed for modern corporate environments to manage hierarchical expense claim workflows. Built with **Clean Architecture** and **Material 3**, this system simulates a real-world SaaS product like ADP or SAP Concur.
 
-## Tech Stack
-- **Kotlin**: Primary programming language.
-- **Jetpack Compose**: Declarative UI framework.
-- **Clean Architecture**: Separation of concerns into Data, Domain, and Presentation layers.
-- **MVVM**: Model-View-ViewModel pattern for stable state management.
-- **Hilt**: Dependency injection for modularity and testability.
-- **Firebase**:
-    - **Authentication**: Secure user login and signup.
-    - **Firestore**: Scalable NoSQL database for expense and user data.
-    - **Storage**: Image storage for receipt uploads.
-- **Kotlin Coroutines + Flow**: Asynchronous programming and reactive data streams.
-- **Navigation Compose**: Type-safe navigation between screens.
-- **Material 3**: Modern UI components and theming.
+## 🚀 Key Features
 
-## Architecture Decisions & Tradeoffs
+### 👥 Role-Based Access Control (RBAC)
+*   **Employees**: Submit expense claims with receipt uploads, track reimbursement status in real-time, and view transaction history.
+*   **Managers**: Review pending team claims, approve/reject with detailed remarks, and monitor team spending.
+*   **Admins**: Access organization-wide financial analytics, budget utilization insights, and export comprehensive **PDF audit reports**.
 
-### 1. Clean Architecture
-**Why**: Ensures that the business logic (Domain layer) is independent of the framework (Android/Firebase). This makes the app highly testable and maintainable.
-**Tradeoff**: Increased boilerplate code initially (interfaces, use cases), but pays off as the project grows.
+### 🛠️ Core Capabilities
+*   **Real-time Synchronization**: Powered by Firestore Snapshots for instant UI updates.
+*   **Receipt Management**: Secure image hosting via Firebase Storage.
+*   **Business Analytics**: Dynamic dashboard featuring budget utilization bars and status distribution.
+*   **Smart Notifications**: Automated FCM & local alerts for claim status updates (Approved/Rejected).
+*   **PDF Engine**: Native generation of professional financial reports for administrative auditing.
 
-### 2. Repository Pattern
-**Why**: Abstracts the data source. If we decide to migrate from Firebase to a REST API in the future, we only need to change the implementation in the Data layer; the rest of the app remains untouched.
-**Tradeoff**: Requires mapping between Data Transfer Objects (DTOs) and Domain models.
+---
 
-### 3. State Management with StateFlow
-**Why**: `StateFlow` is lifecycle-aware and integrates seamlessly with Jetpack Compose's `collectAsState`. It provides a "single source of truth" for the UI state.
-**Tradeoff**: Requires careful management of event-driven states (like one-time navigation events).
+## 🏗️ Architecture (Interview-Ready)
 
-## Scalability Discussion
-- **Microservices Ready**: By abstracting data via repositories, the backend can be migrated to a microservices architecture without impacting the UI.
-- **Module-based Scaling**: The current package structure can easily be converted into Gradle modules (e.g., `:feature:auth`, `:feature:expenses`) for faster build times and better team collaboration.
-- **Offline Support**: Firestore provides built-in offline persistence, allowing the app to scale for users in low-connectivity environments.
+This project follows **Clean Architecture** principles to ensure the code is testable, maintainable, and scalable.
 
-## Future Improvements
-- **Unit Testing**: Implement JUnit and Mockito for domain and repository layers.
-- **UI Testing**: Use Compose Test Rule for automated UI validation.
-- **Advanced Analytics**: Integrate Google Analytics for business insights.
-- **Multi-tenancy**: Expand the `organizationId` logic to support isolated data for different companies.
+### Layers:
+1.  **Presentation (Jetpack Compose + MVVM)**: Unidirectional Data Flow (UDF) using `StateFlow` to ensure predictable UI states.
+2.  **Domain**: Pure Kotlin layer containing the business logic, models, and repository interfaces (Abstracted from frameworks).
+3.  **Data**: Implementation of repositories, Firebase services (Auth, Firestore, Storage), and DTO mapping.
+
+### Technical Highlights:
+*   **Dependency Injection**: Hilt for modularity and effortless testing.
+*   **Reactive Streams**: Kotlin Coroutines & Flow for asynchronous data handling.
+*   **Security**: Server-side validation via strict Firestore Security Rules.
+*   **Modern UI**: Material 3 components, dynamic theming, and responsive layouts.
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Language** | Kotlin |
+| **UI Framework** | Jetpack Compose (Material 3) |
+| **Backend** | Firebase (Auth, Firestore, Storage, Cloud Messaging) |
+| **Architecture** | MVVM + Clean Architecture |
+| **Dependency Injection** | Hilt |
+| **Image Loading** | Coil |
+| **Async/Reactive** | Coroutines & Kotlin Flow |
+| **Reporting** | Native Android PDF Document API |
+
+---
+
+## 📸 Database Schema (Firestore)
+
+*   **`users/`**: `{uid, name, email, role, organizationId}`
+*   **`expenses/`**: `{id, employeeId, employeeName, amount, category, status, receiptUrl, managerName, createdAt}`
+
+---
+
+## 🚦 Getting Started
+
+1.  **Firebase Setup**:
+    *   Enable **Email/Password Auth**, **Firestore**, and **Storage** in the Firebase Console.
+    *   Add your `google-services.json` to the `/app` directory.
+2.  **Security Rules**:
+    *   Deploy the provided `firestore.rules` and `storage.rules` to your Firebase project.
+3.  **SHA Fingerprints**:
+    *   Run `./gradlew signingReport` and add SHA-1/SHA-256 keys to Firebase Settings to enable Play Integrity/reCAPTCHA.
+4.  **Build**:
+    *   Sync Gradle and run the `:app` module.
+
+---
+
+## 📈 Scalability & Future Improvements
+*   **Modularization**: Convert packages into feature-based Gradle modules (`:feature:auth`, `:feature:dashboard`).
+*   **Unit Testing**: Implement Mockito/JUnit for Domain and Data layers.
+*   **CI/CD**: Integrate GitHub Actions for automated linting and APK distribution.
+*   **Offline Mode**: Enable Firestore persistence for offline claim drafting.
+
+---
+
+## 👨‍💻 Interview Talk Points
+*   **Why Clean Architecture?** Decouples business logic from the UI/Framework, allowing us to swap Firebase for a REST API without touching the UI.
+*   **Why Flow over LiveData?** Flow provides better support for complex operators and is cleaner for non-Android-specific layers (Domain).
+*   **Why StateFlow?** Ensures the UI always has a "current state" and handles configuration changes (like rotation) automatically.
